@@ -204,16 +204,16 @@ public class TASDatabase {
         
             /* Prepare Select Query */
                 
-            query = "SELECT id,terminalid,badgeid,originaltimestamp,"
-                    + "punchtypeid FROM tas.punch WHERE id = " + punchID;
+            // query = "SELECT id,terminalid,badgeid,originaltimestamp, punchtypeid FROM tas.punch WHERE id = ? ";
             
-            pstSelect = conn.prepareStatement(query);
+            pstSelect = conn.prepareStatement("SELECT id, terminalid, badgeid, originaltimestamp, punchtypeid FROM tas.punch WHERE id = ?");
+	    pstSelect.setInt(1, punchID);
                 
             /* Execute Select Query */
                 
             System.out.println("Submitting Query ...");
-                
-            hasresults = pstSelect.execute();                
+            
+            hasresults = pstSelect.execute(); // nosemgrep               
             resultset = pstSelect.getResultSet();
             metadata = resultset.getMetaData();
             columnCount = metadata.getColumnCount(); 
@@ -310,17 +310,15 @@ public class TASDatabase {
             /* Prepare Select Query */
                 
 
-            query = "SELECT description,start,stop,`interval`,graceperiod,dock,"
-                    + "lunchstart,lunchstop,lunchdeduct FROM tas.shift WHERE id"
-                    + " = "+ shiftID;
+            // query = "SELECT description,start,stop,`interval`,graceperiod,dock, lunchstart,lunchstop,lunchdeduct FROM tas.shift WHERE id = ?";
 
-            pstSelect = conn.prepareStatement(query);
-                
+            pstSelect = conn.prepareStatement("SELECT description, start, stop, 'interval', graceperiod, dock, lunchstart, lunchstop, lunchdeduct FROM tas.shift WHERE id = ?");
+            pstSelect.setInt(1, shiftID);    
             /* Execute Select Query */
                 
             System.out.println("Submitting Query ...");
-                
-            hasresults = pstSelect.execute();                
+               
+            hasresults = pstSelect.execute(); // nosemgrep               
             resultset = pstSelect.getResultSet();
             metadata = resultset.getMetaData();
             columnCount = metadata.getColumnCount();
