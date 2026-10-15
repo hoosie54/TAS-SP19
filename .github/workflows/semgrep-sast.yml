@@ -1,0 +1,25 @@
+name: DevSecOps SAST Scanning Pipeline
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  semgrep-scan:
+    name: Security Code Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Code Repository
+        uses: actions/checkout@v4
+
+      - name: Initialize Semgrep Engine
+        run: |
+            pip3 install semgrep
+            semgrep --version
+
+      - name: Execute Automated Audit
+        run: |
+            semgrep scan --config auto --exclude-rule java.lang.security.audit.formatted-sql-string.formatted-sql-string
